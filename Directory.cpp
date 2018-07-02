@@ -23,20 +23,21 @@
 
 using namespace std;
 
+
 #ifdef JON
-void jon(char * text, int event);
+void jon(const char * text, int event);
 
 int main(int argc, char *argv[])
 {
 	Directory myDirectory;
 
 	cout << "Hello, world!" << endl;
-	myDirectory.Recurse("/home/jdellaria/Desktop/Kings Of Leon", jon);
+	myDirectory.Recurse((const char*)"/home/jdellaria/Desktop/test", jon);
 //	myDirectory.Create("/root/Lost/Highway");
 
 }
 
-void jon(char * text, int event)
+void jon(const char * text, int event)
 {
 	printf("%s\n", text);
 }
@@ -57,6 +58,7 @@ int Directory::Get(const char* startDirectory, void (*callBack)(const char* dire
 	DIR *pdir;
 	struct dirent *pent;
 	char	fullName[FULLNAMESIZE];
+	int stringLength;
 
 	pdir=opendir(startDirectory); //"." refers to the current dir
 	if (!pdir)
@@ -71,6 +73,7 @@ int Directory::Get(const char* startDirectory, void (*callBack)(const char* dire
 		/*
 		 * Skip the "." and ".." entries
 		 */
+		stringLength = strlen (startDirectory) + strlen (pent->d_name) + 2;
 
 		if (strcmp (pent->d_name, ".") == 0 ||	strcmp (pent->d_name, "..") == 0)
 			continue;
@@ -79,13 +82,15 @@ int Directory::Get(const char* startDirectory, void (*callBack)(const char* dire
 		 * Make the full filename
 		 */
 
-		if (strlen (startDirectory) + strlen (pent->d_name) + 2 > FULLNAMESIZE)
+		if (stringLength > FULLNAMESIZE)
 		{
+			printf ("Directory::Get closedir(pdir): %s\n",pent->d_name); //JON
 			closedir(pdir);
 			return 0;
 		}
 		sprintf (fullName, "%s/%s", startDirectory, pent->d_name);
-		sprintf (fullPathName, fullName);
+//		sprintf (fullPathName, fullName); // this causes an overflow with the filename 'drefhttps3A2F2Fthetecht (copy).com%25252F2012%25252F08%25252F06%25252Fi'. replaced with strncpy and solved the problem
+		strncpy (fullPathName, fullName, FULLNAMESIZE);
 
 
 		//This lstat is to get the file information for the recurse
