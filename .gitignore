@@ -38,5 +38,5 @@
 
 #Folders
 Debug/
-Release/
+#Release/
 *.log*
