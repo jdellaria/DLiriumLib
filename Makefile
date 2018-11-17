@@ -44,7 +44,7 @@ install:
 # Uninstall the library from the system
 uninstall:
 	rm -f $(PREFIX)/lib/$(LIBRARY_NAME).so
-	rm -f $(PREFIX)/include/$(HEADERS)
+# this renoves the first h file and the rest from the current directory	rm -f $(PREFIX)/include/$(HEADERS)
 
 .PHONY: clean
 clean:
