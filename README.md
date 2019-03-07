@@ -25,7 +25,7 @@ git push
 //git add NAME_OF_FILE or //git add . - to add all new files and changes git status
 
 
-Compilation & installation : cd ro Release 
+Compilation & installation : 
 
     pi@raspberrypi:~/Desktop/DLiriumLib/Release$ make
     pi@raspberrypi:~/Desktop/DLiriumLib$ sudo make install
