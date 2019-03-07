@@ -23,3 +23,10 @@ git commit -a -m "Your commit message here"
 git push
 
 //git add NAME_OF_FILE or //git add . - to add all new files and changes git status
+
+
+Compilation & installation : cd ro Release 
+
+    pi@raspberrypi:~/Desktop/DLiriumLib/Release$ make
+    pi@raspberrypi:~/Desktop/DLiriumLib$ sudo make install
+
