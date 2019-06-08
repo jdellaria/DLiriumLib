@@ -22,6 +22,23 @@ File::~File() {
 	// TODO Auto-generated destructor stub
 }
 
+int File::rename(const char* origName, const char* newName)
+{
+	LinuxCommand myCommand;
+	const char *darg[4]={RENAMEFILE,NULL, NULL,NULL};
+	darg[1] = origName;
+	darg[2] = newName;
+	myCommand.Execute(darg,errorMessageBuffer,sizeof(errorMessageBuffer)-2);
+	if (strlen(errorMessageBuffer) > 0)
+	{
+		return (-1); // on error errorMessageBuffer has the error string
+	}
+	else
+	{
+		return (0);
+	}
+}
+
 int File::remove(const char* name)
 {
 	LinuxCommand myCommand;

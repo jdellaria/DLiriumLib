@@ -15,6 +15,7 @@
 #include <inttypes.h>
 
 #define REMOVEFILE "rm"
+#define RENAMEFILE "mv"
 #define LINKFILE "ln"
 #define CHANGEPERMISSIONS "chmod"
 #define CHANGEOWNER "chown"
@@ -32,6 +33,7 @@ class File {
 public:
 	File();
 	virtual ~File();
+	int rename(const char* origName, const char* newName);
 	int remove(const char* name);
 	uint64_t size(const char* name);
 	int changePermissions(const char*  name, const char* permissions);
