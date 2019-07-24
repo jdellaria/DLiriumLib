@@ -248,13 +248,16 @@ DLog& DLog::operator<<(const double number)
 DLog& DLog::operator<<(const char character)
 {
 	DLogMessage += std::string(1, character);
-   return *this;
+	return *this;
 }
 
 DLog& DLog::operator<<(const bool boolean)
 {
-	DLogMessage +=  std::to_string(boolean);
-   return *this;
+	if(boolean == true)
+		DLogMessage +=  "'true'";
+	else
+		DLogMessage +=  "'false'";
+	return *this;
 }
 
 void DLog::FlushDebug()
