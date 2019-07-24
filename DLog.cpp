@@ -25,7 +25,52 @@ using namespace std;
 //	myLog.setErrorLevel(logInformation);
 	sprintf (message, "this is my message %d", 100 );
 	myLog.print(logDebug, message);
-}*/
+}
+
+
+int main() {
+
+	DLog myLog;
+	bool myBool = false;
+	string message;
+	string FileName = "/home/jdellaria/Desktop/JONLog.txt";
+
+	myLog.logFileName = FileName;
+//	myLog.setLogFileName ("/home/jdellaria/Desktop/JONLog.txt");
+	myLog.logValue = logDebug;
+	myLog.printFile = true;
+	myLog.printScreen = true;
+	myLog.printTime = true;
+
+//	myMessage.print();
+	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	cout << "myLog.logFileName " << myLog.logFileName << endl;
+	message = "DLog Message ";
+//	myLog.print(logWarning, message);
+
+	double pi = 3.14;
+	long longInt = 2212;
+	myLog << "DLogDebug Message " << pi <<'w'<< longInt << DLogDebug;
+	myLog << "DLogInformation Message " << pi  <<'w'<<  DLogInformation;
+	myLog << "DLogWarning Message " <<  pi  <<'w'<< DLogWarning;
+	myLog << "DLogError Message " <<  pi  <<'w'<< DLogError;
+	myLog << "DLogLog Message " <<  pi  <<'w'<< DLogLog;
+
+	myLog << "1 DLogDebug Message " << pi <<'s';
+	myLog.print(logDebug);
+	myLog << "1 DLogInformation Message " << pi <<'s';
+	myLog.print(logInformation);
+	myLog << "1 DLogWarning Message " <<  pi  <<'s';
+	myLog.print(logWarning);
+	myLog << "1 DLogError Message " <<  pi  <<'s';
+	myLog.print(logError);
+	myLog << "1 DLogLog Message " <<  pi  <<'s';
+	myLog.print(logLog);
+
+//	myLog.print(logDebug);
+	return 0;
+}
+*/
 
 DLog::DLog()
 {
@@ -83,9 +128,21 @@ void DLog::setErrorString (logLevel errorLevel)
 	}
 }
 
+int DLog::print (logLevel errorLevel)
+{
+	int returnValue;
+
+	returnValue = print(errorLevel, DLogMessage);
+	DLogMessage.clear();
+	return (returnValue);
+}
+
 int DLog::print (logLevel errorLevel, string message)
 {
-	return (print(errorLevel, message.c_str()));
+	int returnValue;
+
+	returnValue = print(errorLevel, message.c_str());
+	return (returnValue);
 }
 
 int DLog::print (logLevel errorLevel, const char *message)
@@ -146,3 +203,125 @@ int DLog::print (logLevel errorLevel, const char *message)
    }
    return 0;
 }
+
+
+DLog& DLog::operator<<(DLog& (*fp)(DLog&))
+{
+      return (*fp)(*this);
+}
+
+
+DLog& DLog::operator<<(const char * text)
+{
+	DLogMessage += std::string(text);
+   return *this;
+}
+
+
+DLog& DLog::operator<<(const std::string &text)
+{
+	DLogMessage += text;
+    return *this;
+}
+
+DLog& DLog::operator<<(const int number)
+{
+	DLogMessage += std::to_string(number);
+    return *this;
+}
+
+
+DLog& DLog::operator<<(const long number)
+{
+	DLogMessage += std::to_string(number);
+    return *this;
+}
+
+DLog& DLog::operator<<(const double number)
+{
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2) << number;
+    DLogMessage += ss.str();
+    return *this;
+}
+
+DLog& DLog::operator<<(const char character)
+{
+	DLogMessage += std::string(1, character);
+   return *this;
+}
+
+DLog& DLog::operator<<(const bool boolean)
+{
+	DLogMessage +=  std::to_string(boolean);
+   return *this;
+}
+
+void DLog::FlushDebug()
+{
+	print (logDebug, DLogMessage);
+	DLogMessage.clear();
+}
+
+void DLog::FlushInformation()
+{
+	print (logInformation, DLogMessage);
+	DLogMessage.clear();
+}
+
+
+void DLog::FlushWarning()
+{
+	print (logWarning, DLogMessage);
+	DLogMessage.clear();
+}
+
+
+void DLog::FlushError()
+{
+	print (logError, DLogMessage);
+	DLogMessage.clear();
+}
+
+
+void DLog::FlushLog()
+{
+	print (logLog, DLogMessage);
+	DLogMessage.clear();
+}
+
+DLog& DLogDebug(DLog& os)
+{
+
+	os.FlushDebug();
+	return os;
+}
+
+
+DLog& DLogInformation(DLog& os)
+{
+    os.FlushInformation();
+    return os;
+}
+
+DLog& DLogWarning(DLog& os)
+{
+	os.FlushWarning();
+	return os;
+}
+
+
+DLog& DLogError(DLog& os)
+{
+    os.FlushError();
+    return os;
+}
+
+DLog& DLogLog(DLog& os)
+{
+    os.FlushLog();
+    return os;
+}
+
+
+
