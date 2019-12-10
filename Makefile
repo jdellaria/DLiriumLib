@@ -17,7 +17,7 @@ HEADERS += $(SOURCES:.cpp=.h)
 
 # Define C++ compiler flags
 #override CXXFLAGS = -O3 -Wall
-override CXXFLAGS = -Wall -fPIC
+override CXXFLAGS = -Wall -fPIC -std=c++0x
 
 # Linker flags
 LDFLAGS = -shared
@@ -33,12 +33,13 @@ all: $(LIBRARY_NAME).so
 # Build the binary
 $(LIBRARY_NAME).so: $(OBJECTS)
 	@echo Building target file: $@.
-	g++ $(LDFLAGS) -o $@ $^ -lm
+	g++ $(LDFLAGS)  -o $@ $^ -lm
 
 
 # Install the library in $(prefix)
 install:
 	install -m 0644 $(LIBRARY_NAME).so $(PREFIX)/lib
+	install -m 0644 Release/$(LIBRARY_NAME).a $(PREFIX)/lib
 	install -m 0644 $(HEADERS) $(PREFIX)/include
 
 # Uninstall the library from the system

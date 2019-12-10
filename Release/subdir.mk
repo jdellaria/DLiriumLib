@@ -19,6 +19,10 @@ CPP_SRCS += \
 ../tinyxmlerror.cpp \
 ../tinyxmlparser.cpp 
 
+O_SRCS += \
+../LinuxCommand.o \
+../tinystr.o 
+
 OBJS += \
 ./Audio.o \
 ./DLog.o \
